@@ -14,6 +14,22 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                coral: {
+                    DEFAULT: '#FF6B6B',
+                    light: '#FF8787',
+                    dark: '#EE5A5A',
+                    hover: '#FF5252',
+                },
+                navy: {
+                    DEFAULT: '#1A1F36',
+                    light: '#2D3561',
+                },
+            },
+            boxShadow: {
+                'coral': '0 10px 30px -5px rgba(255, 107, 107, 0.3)',
+                'coral/50': '0 10px 30px -5px rgba(255, 107, 107, 0.5)',
+            },
         },
     },
 

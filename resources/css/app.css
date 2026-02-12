@@ -1,3 +1,161 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ============================================
+   CUSTOM CORAL COLORS - SOLUTION
+============================================ */
+
+/* Jika Tailwind config tidak bisa diubah, gunakan CSS custom ini */
+@layer utilities {
+    /* Background Colors */
+    .bg-coral {
+        background-color: #FF6B6B;
+    }
+    
+    .bg-coral\/5 {
+        background-color: rgba(255, 107, 107, 0.05);
+    }
+    
+    .bg-coral\/8 {
+        background-color: rgba(255, 107, 107, 0.08);
+    }
+    
+    .bg-coral\/10 {
+        background-color: rgba(255, 107, 107, 0.1);
+    }
+    
+    .bg-coral\/20 {
+        background-color: rgba(255, 107, 107, 0.2);
+    }
+    
+    .bg-coral-light {
+        background-color: #FF8787;
+    }
+    
+    .bg-coral-dark {
+        background-color: #EE5A5A;
+    }
+    
+    /* Text Colors */
+    .text-coral {
+        color: #FF6B6B;
+    }
+    
+    .text-coral-light {
+        color: #FF8787;
+    }
+    
+    .text-coral-dark {
+        color: #EE5A5A;
+    }
+    
+    /* Border Colors */
+    .border-coral {
+        border-color: #FF6B6B;
+    }
+    
+    .border-coral\/20 {
+        border-color: rgba(255, 107, 107, 0.2);
+    }
+    
+    .border-coral\/30 {
+        border-color: rgba(255, 107, 107, 0.3);
+    }
+    
+    .border-coral\/50 {
+        border-color: rgba(255, 107, 107, 0.5);
+    }
+    
+    /* Hover States */
+    .hover\:bg-coral:hover {
+        background-color: #FF6B6B;
+    }
+    
+    .hover\:bg-coral-dark:hover {
+        background-color: #EE5A5A;
+    }
+    
+    .hover\:text-coral:hover {
+        color: #FF6B6B;
+    }
+    
+    .hover\:text-coral-dark:hover {
+        color: #EE5A5A;
+    }
+    
+    .hover\:border-coral:hover {
+        border-color: #FF6B6B;
+    }
+    
+    .hover\:border-coral\/50:hover {
+        border-color: rgba(255, 107, 107, 0.5);
+    }
+    
+    /* Group Hover States */
+    .group:hover .group-hover\:text-coral {
+        color: #FF6B6B;
+    }
+    
+    .group:hover .group-hover\:border-coral {
+        border-color: #FF6B6B;
+    }
+    
+    /* Gradients */
+    .bg-gradient-to-r.from-coral.to-coral-dark {
+        background-image: linear-gradient(to right, #FF6B6B, #EE5A5A);
+    }
+    
+    .bg-gradient-to-br.from-coral.to-coral-dark {
+        background-image: linear-gradient(to bottom right, #FF6B6B, #EE5A5A);
+    }
+    
+    .from-coral {
+        --tw-gradient-from: #FF6B6B;
+        --tw-gradient-to: rgba(255, 107, 107, 0);
+        --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+    }
+    
+    .via-coral-light {
+        --tw-gradient-to: rgba(255, 135, 135, 0);
+        --tw-gradient-stops: var(--tw-gradient-from), #FF8787, var(--tw-gradient-to);
+    }
+    
+    .to-coral-dark {
+        --tw-gradient-to: #EE5A5A;
+    }
+    
+    /* Shadows */
+    .shadow-coral {
+        box-shadow: 0 10px 30px -5px rgba(255, 107, 107, 0.3);
+    }
+    
+    .shadow-coral\/50 {
+        box-shadow: 0 10px 30px -5px rgba(255, 107, 107, 0.5);
+    }
+    
+    .hover\:shadow-coral:hover {
+        box-shadow: 0 10px 30px -5px rgba(255, 107, 107, 0.3);
+    }
+    
+    .hover\:shadow-coral\/50:hover {
+        box-shadow: 0 10px 30px -5px rgba(255, 107, 107, 0.5);
+    }
+}
+
+/* ============================================
+   ADDITIONAL FIXES
+============================================ */
+
+@layer components {
+    /* Ensure all buttons and links are visible */
+    .btn-coral-outline {
+        @apply inline-flex items-center px-6 py-3 bg-white text-coral font-bold rounded-xl border-2 border-coral;
+        @apply hover:bg-coral hover:text-white transition-all duration-300;
+    }
+    
+    .btn-coral-filled {
+        @apply inline-flex items-center px-6 py-3 bg-coral text-white font-bold rounded-xl;
+        @apply hover:bg-coral-dark transition-all duration-300;
+    }
+}
