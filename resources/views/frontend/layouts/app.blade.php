@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', ($site_settings['site_name'] ?? 'WokilTech') . ' - Solusi Digital Terbaik')</title>
     <meta name="description" content="@yield('meta_description', $site_settings['site_description'] ?? 'Jasa pembuatan website, aplikasi mobile, dan IoT profesional.')">
+    <link rel="icon" href="{{ asset('img/Wokil_Tech.png') }}" type="image/png">
+    <link rel="shortcut icon" href="{{ asset('img/Wokil_Tech.png') }}" type="image/png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -619,8 +621,12 @@
         <div class="nav-container">
             <div class="flex justify-between items-center h-20">
                 <div class="flex items-center">
-                    <a href="{{ route('home') }}" class="flex items-center">
-                        <img src="{{ asset('img/Wokil_Tech.png') }}" alt="WokilTech Logo" style="height: 50px; width: auto;">
+                    <a href="{{ route('home') }}" class="flex items-center gap-2 text-decoration-none">
+                        <img src="{{ asset('img/Wokil_Tech.png') }}" alt="Logo WokilTech" style="height: 45px; width: auto;" class="mr-2">
+
+                        <span class="logo">
+                            {{ $site_settings['site_name'] ?? 'Wokil' }}<span class="logo-text">Tech</span>
+                        </span>
                     </a>
                 </div>
 
@@ -674,9 +680,14 @@
     <aside id="mobileSidebar" class="mobile-sidebar">
         <!-- Sidebar Header -->
         <div class="sidebar-header">
-            <div class="sidebar-logo" style="background: none; -webkit-text-fill-color: initial;">
-                <img src="{{ asset('img/Wokil_Tech.png') }}" alt="WokilTech Logo" style="height: 40px; width: auto;">
+            <div class="flex items-center">
+                <img src="{{ asset('img/Wokil_Tech.png') }}" alt="Logo WokilTech" style="height: 35px; width: auto;" class="mr-3">
+
+                <div class="sidebar-logo">
+                    {{ $site_settings['site_name'] ?? 'Wokil' }}<span class="sidebar-logo-text">Tech</span>
+                </div>
             </div>
+
             <button id="sidebarCloseBtn" class="sidebar-close">
                 <i class="bi bi-x text-xl"></i>
             </button>
@@ -753,7 +764,11 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
                 <div class="lg:col-span-1">
                     <div class="mb-4">
-                        <img src="{{ asset('img/Wokil_Tech.png') }}" alt="WokilTech Logo" style="height: 60px; width: auto;">
+                        <img src="{{ asset('img/Wokil_Tech.png') }}" alt="Logo WokilTech" style="height: 40px; width: auto;" class="mr-3">
+
+                        <h3 class="footer-logo" style="margin-bottom: 0;">
+                            <span class="footer-logo-gradient">{{ $site_settings['site_name'] ?? 'Wokil' }}</span><span class="text-white">Tech</span>
+                        </h3>
                     </div>
                     <p class="text-gray-400 text-sm leading-relaxed mb-6">
                         {{ $site_settings['site_description'] ?? 'Partner teknologi terpercaya untuk transformasi digital bisnis Anda.' }}
