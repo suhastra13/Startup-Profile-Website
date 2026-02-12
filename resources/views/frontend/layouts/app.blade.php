@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', ($site_settings['site_name'] ?? 'WokilTech') . ' - Solusi Digital Terbaik')</title>
     <meta name="description" content="@yield('meta_description', $site_settings['site_description'] ?? 'Jasa pembuatan website, aplikasi mobile, dan IoT profesional.')">
+    <meta name="google-site-verification" content="IdhXQAHeF7aWg5LUG-9Do8CMHoAu1q2Yt1w3LyrNUeg" />
     <link rel="icon" href="{{ asset('img/Wokil_Tech.png?v=2') }}" type="image/png">
     <link rel="shortcut icon" href="{{ asset('img/Wokil_Tech.png?v=2') }}" type="image/png">
 
