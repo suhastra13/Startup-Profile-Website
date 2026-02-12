@@ -619,8 +619,8 @@
         <div class="nav-container">
             <div class="flex justify-between items-center h-20">
                 <div class="flex items-center">
-                    <a href="{{ route('home') }}" class="logo">
-                        {{ $site_settings['site_name'] ?? 'Wokil' }}<span class="logo-text">Tech</span>
+                    <a href="{{ route('home') }}" class="flex items-center">
+                        <img src="{{ asset('img/Wokil_Tech.png') }}" alt="WokilTech Logo" style="height: 50px; width: auto;">
                     </a>
                 </div>
 
@@ -674,8 +674,8 @@
     <aside id="mobileSidebar" class="mobile-sidebar">
         <!-- Sidebar Header -->
         <div class="sidebar-header">
-            <div class="sidebar-logo">
-                {{ $site_settings['site_name'] ?? 'Wokil' }}<span class="sidebar-logo-text">Tech</span>
+            <div class="sidebar-logo" style="background: none; -webkit-text-fill-color: initial;">
+                <img src="{{ asset('img/Wokil_Tech.png') }}" alt="WokilTech Logo" style="height: 40px; width: auto;">
             </div>
             <button id="sidebarCloseBtn" class="sidebar-close">
                 <i class="bi bi-x text-xl"></i>
@@ -752,9 +752,9 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
                 <div class="lg:col-span-1">
-                    <h3 class="footer-logo">
-                        <span class="footer-logo-gradient">{{ $site_settings['site_name'] ?? 'Wokil' }}</span><span class="text-white">Tech</span>
-                    </h3>
+                    <div class="mb-4">
+                        <img src="{{ asset('img/Wokil_Tech.png') }}" alt="WokilTech Logo" style="height: 60px; width: auto;">
+                    </div>
                     <p class="text-gray-400 text-sm leading-relaxed mb-6">
                         {{ $site_settings['site_description'] ?? 'Partner teknologi terpercaya untuk transformasi digital bisnis Anda.' }}
                     </p>
