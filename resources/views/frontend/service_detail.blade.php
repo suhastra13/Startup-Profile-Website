@@ -86,7 +86,7 @@
                     <div class="prose prose-lg max-w-none">
                         @if($service->full_description)
                         <div class="text-gray-700 leading-relaxed space-y-6 text-base lg:text-lg font-medium">
-                            {!! nl2br(e($service->full_description)) !!}
+                            {!! $service->full_description !!}
                         </div>
                         @else
                         <div class="text-gray-700 leading-relaxed space-y-6 text-base lg:text-lg font-medium">
