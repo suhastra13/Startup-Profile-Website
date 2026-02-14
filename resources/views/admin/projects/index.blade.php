@@ -560,8 +560,86 @@
         justify-content: flex-end;
     }
 
+    /* Mobile Card View */
+    .project-card-mobile {
+        display: none;
+        background: white;
+        border-radius: 0.75rem;
+        border: 1.5px solid var(--gray-200);
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+        transition: all 0.2s ease;
+    }
+
+    .project-card-mobile:hover {
+        border-color: var(--coral);
+        box-shadow: 0 4px 12px rgba(255, 107, 107, 0.1);
+    }
+
+    .project-card-header-mobile {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1.5px solid var(--gray-100);
+    }
+
+    .project-card-title-mobile {
+        flex: 1;
+    }
+
+    .project-card-name-mobile {
+        font-weight: 700;
+        color: var(--navy);
+        font-size: 1rem;
+        margin-bottom: 0.375rem;
+        text-decoration: none;
+        display: block;
+    }
+
+    .project-card-name-mobile:hover {
+        color: var(--coral);
+    }
+
+    .project-card-body-mobile {
+        display: flex;
+        flex-direction: column;
+        gap: 0.875rem;
+    }
+
+    .project-card-row-mobile {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .project-card-label-mobile {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--gray-500);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        white-space: nowrap;
+    }
+
+    .project-card-value-mobile {
+        font-weight: 600;
+        color: var(--gray-700);
+        text-align: right;
+    }
+
+    .project-card-actions-mobile {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1.5px solid var(--gray-100);
+        display: flex;
+        gap: 0.5rem;
+    }
+
     /* Responsive */
-    @media (max-width: 768px) {
+    @media (max-width: 992px) {
         .modern-card-header {
             padding: 1.25rem 1.5rem;
         }
@@ -587,12 +665,55 @@
             padding: 1.25rem;
         }
 
+        /* Hide table, show cards on tablets and mobile */
         .modern-table-wrapper {
-            overflow-x: auto;
+            display: none;
         }
 
-        .modern-table {
-            min-width: 800px;
+        .project-card-mobile {
+            display: block;
+        }
+
+        .action-buttons {
+            flex: 1;
+        }
+
+        .btn-action {
+            flex: 1;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .stat-card-value {
+            font-size: 1.5rem;
+        }
+
+        .stat-card-label {
+            font-size: 0.75rem;
+        }
+
+        .filter-section .col-md-3,
+        .filter-section .col-md-5,
+        .filter-section .col-md-2 {
+            margin-bottom: 0.75rem;
+        }
+
+        .btn-primary-custom {
+            padding: 0.625rem 1.25rem;
+            font-size: 0.875rem;
+        }
+
+        .project-card-mobile {
+            padding: 1rem;
+        }
+
+        .project-card-name-mobile {
+            font-size: 0.9375rem;
+        }
+
+        .status-badge {
+            padding: 0.375rem 0.75rem;
+            font-size: 0.75rem;
         }
     }
 </style>
@@ -692,7 +813,7 @@
             </div>
         </form>
 
-        <!-- Table -->
+        <!-- Table (Desktop View) -->
         @if($projects->count() > 0)
         <div class="modern-table-wrapper">
             <table class="modern-table">
@@ -741,11 +862,16 @@
                             </span>
                         </td>
                         <td>
+                            @php
+                            $total = $project->milestones->count();
+                            $completed = $project->milestones->where('status', 'completed')->count();
+                            $percentage = $total > 0 ? round(($completed / $total) * 100) : 0;
+                            @endphp
                             <div class="progress-container">
                                 <div class="progress-bar-wrapper">
-                                    <div class="progress-bar-fill" style="width: 50%"></div>
+                                    <div class="progress-bar-fill" style="width: {{ $percentage }}%"></div>
                                 </div>
-                                <div class="progress-text">50%</div>
+                                <div class="progress-text">{{ $percentage }}%</div>
                             </div>
                         </td>
                         <td>
@@ -781,6 +907,94 @@
                     @endforeach
                 </tbody>
             </table>
+        </div>
+
+        <!-- Mobile Card View -->
+        <div class="mobile-cards-container">
+            @foreach($projects as $project)
+            <div class="project-card-mobile">
+                <div class="project-card-header-mobile">
+                    <div class="project-card-title-mobile">
+                        <a href="{{ route('admin.projects.show', $project->id) }}" class="project-card-name-mobile">
+                            {{ $project->project_name }}
+                        </a>
+                        <div class="project-type">
+                            <i class="bi bi-tag-fill"></i>
+                            {{ $project->project_type }}
+                        </div>
+                    </div>
+                    <span class="status-badge {{ $project->status }}">
+                        @if($project->status === 'pending')
+                        <i class="bi bi-clock-fill"></i>
+                        @elseif($project->status === 'in_progress')
+                        <i class="bi bi-arrow-repeat"></i>
+                        @elseif($project->status === 'completed')
+                        <i class="bi bi-check-circle-fill"></i>
+                        @elseif($project->status === 'cancelled')
+                        <i class="bi bi-x-circle-fill"></i>
+                        @endif
+                        {{ ucfirst(str_replace('_', ' ', $project->status)) }}
+                    </span>
+                </div>
+
+                <div class="project-card-body-mobile">
+                    <div class="project-card-row-mobile">
+                        <span class="project-card-label-mobile">Client</span>
+                        <div class="client-name project-card-value-mobile">
+                            <div class="client-avatar">
+                                {{ strtoupper(substr($project->client_name, 0, 1)) }}
+                            </div>
+                            {{ $project->client_name }}
+                        </div>
+                    </div>
+
+                    <div class="project-card-row-mobile">
+                        <span class="project-card-label-mobile">Progress</span>
+                        @php
+                        $total = $project->milestones->count();
+                        $completed = $project->milestones->where('status', 'completed')->count();
+                        $percentage = $total > 0 ? round(($completed / $total) * 100) : 0;
+                        @endphp
+                        <div class="progress-container project-card-value-mobile" style="min-width: 100px;">
+                            <div class="progress-bar-wrapper">
+                                <div class="progress-bar-fill" style="width: {{ $percentage }}%"></div>
+                            </div>
+                            <div class="progress-text">{{ $percentage }}%</div>
+                        </div>
+                    </div>
+
+                    <div class="project-card-row-mobile">
+                        <span class="project-card-label-mobile">Deadline</span>
+                        @if($project->deadline)
+                        @php
+                        $isOverdue = $project->deadline->isPast() && $project->status !== 'completed';
+                        @endphp
+                        <div class="deadline-text project-card-value-mobile {{ $isOverdue ? 'deadline-overdue' : '' }}">
+                            <i class="bi bi-calendar-event-fill"></i>
+                            {{ $project->deadline->format('d M Y') }}
+                        </div>
+                        @else
+                        <span class="text-muted project-card-value-mobile">-</span>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="project-card-actions-mobile">
+                    <a
+                        href="{{ route('admin.projects.show', $project->id) }}"
+                        class="btn-action view"
+                        title="View Details">
+                        <i class="bi bi-eye-fill"></i>
+                    </a>
+                    <a
+                        href="{{ route('admin.projects.edit', $project->id) }}"
+                        class="btn-action edit"
+                        title="Edit">
+                        <i class="bi bi-pencil-fill"></i>
+                    </a>
+                </div>
+            </div>
+            @endforeach
         </div>
 
         <!-- Pagination -->

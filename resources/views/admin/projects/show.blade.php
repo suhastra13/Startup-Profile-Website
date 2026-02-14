@@ -822,6 +822,26 @@
     }
 
     /* Responsive */
+    @media (max-width: 992px) {
+        .overview-grid {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .progress-sidebar {
+            padding: 1.5rem;
+        }
+
+        .progress-value {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .progress-subtitle {
+            font-size: 0.8125rem;
+        }
+    }
+
     @media (max-width: 768px) {
         .project-header {
             padding: 1.5rem;
@@ -850,18 +870,93 @@
             padding: 1.5rem;
         }
 
-        .overview-grid {
-            grid-template-columns: 1fr;
-            gap: 2rem;
-        }
-
         .info-grid {
             grid-template-columns: 1fr;
             gap: 1.5rem;
         }
 
+        .info-label {
+            flex: 0 0 100px;
+        }
+
         .documents-grid {
             grid-template-columns: 1fr;
+        }
+
+        .timeline {
+            padding-left: 1.5rem;
+        }
+
+        .section-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .btn-add {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .project-header {
+            padding: 1.25rem;
+        }
+
+        .project-title-section h3 {
+            font-size: 1.5rem;
+        }
+
+        .modern-card-body {
+            padding: 1.25rem;
+        }
+
+        .progress-sidebar {
+            padding: 1.25rem;
+        }
+
+        .progress-value {
+            font-size: 2.5rem;
+        }
+
+        .info-row {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.375rem;
+            padding: 0.625rem 0;
+        }
+
+        .info-label {
+            font-size: 0.75rem;
+        }
+
+        .info-value.price {
+            font-size: 1rem;
+        }
+
+        .modern-tab {
+            padding: 1rem 1.25rem;
+            font-size: 0.875rem;
+        }
+
+        .milestone-header {
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .milestone-actions {
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .milestone-actions form {
+            width: 100%;
+        }
+
+        .btn-milestone {
+            width: 100%;
+            justify-content: center;
         }
     }
 </style>
@@ -924,6 +1019,24 @@
         <!-- Overview Tab -->
         <div class="tab-content active" id="overview">
             <div class="overview-grid">
+                <!-- Progress Sidebar - Will appear first on mobile -->
+                <div class="progress-sidebar">
+                    <h6>Project Progress</h6>
+                    @php
+                    $total = $project->milestones->count();
+                    $completed = $project->milestones->where('status', 'completed')->count();
+                    $percentage = $total > 0 ? round(($completed / $total) * 100) : 0;
+                    @endphp
+                    <div class="progress-value">{{ $percentage }}%</div>
+                    <div class="progress-bar-custom">
+                        <div class="progress-bar-fill-custom" style="width: {{ $percentage }}%"></div>
+                    </div>
+                    <div class="progress-subtitle">
+                        <strong>{{ $completed }}</strong> of <strong>{{ $total }}</strong> milestones completed
+                    </div>
+                </div>
+
+                <!-- Main Content -->
                 <div class="overview-main">
                     <h5>
                         <i class="bi bi-file-text-fill"></i>
@@ -991,22 +1104,6 @@
                                 <div class="info-value price">Rp {{ number_format($project->price, 0, ',', '.') }}</div>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="progress-sidebar">
-                    <h6>Project Progress</h6>
-                    @php
-                    $total = $project->milestones->count();
-                    $completed = $project->milestones->where('status', 'completed')->count();
-                    $percentage = $total > 0 ? round(($completed / $total) * 100) : 0;
-                    @endphp
-                    <div class="progress-value">{{ $percentage }}%</div>
-                    <div class="progress-bar-custom">
-                        <div class="progress-bar-fill-custom" style="width: {{ $percentage }}%"></div>
-                    </div>
-                    <div class="progress-subtitle">
-                        <strong>{{ $completed }}</strong> of <strong>{{ $total }}</strong> milestones completed
                     </div>
                 </div>
             </div>

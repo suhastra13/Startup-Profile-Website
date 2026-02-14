@@ -206,36 +206,6 @@
         padding-left: 3rem;
     }
 
-    /* Currency Display */
-    .currency-display {
-        margin-top: 0.5rem;
-        padding: 0.75rem 1rem;
-        background: linear-gradient(135deg, rgba(255, 107, 107, 0.05), rgba(255, 107, 107, 0.02));
-        border-radius: 0.5rem;
-        border: 1.5px solid rgba(255, 107, 107, 0.2);
-        display: none;
-    }
-
-    .currency-display.active {
-        display: block;
-    }
-
-    .currency-label {
-        font-size: 0.75rem;
-        color: var(--gray-600);
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        margin-bottom: 0.25rem;
-    }
-
-    .currency-value {
-        font-size: 1.25rem;
-        font-weight: 800;
-        color: var(--coral);
-        font-family: 'Courier New', monospace;
-    }
-
     /* Current Value Badge */
     .current-value-badge {
         display: inline-flex;
@@ -454,33 +424,6 @@
         background: rgba(59, 130, 246, 0.1);
         color: #2563EB;
         border: 1px solid rgba(59, 130, 246, 0.2);
-    }
-
-    /* Changed Indicator */
-    .changed-indicator {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.375rem;
-        padding: 0.25rem 0.625rem;
-        background: rgba(255, 107, 107, 0.1);
-        color: var(--coral);
-        border-radius: 0.375rem;
-        font-size: 0.75rem;
-        font-weight: 600;
-        margin-left: 0.5rem;
-        animation: fadeIn 0.3s ease;
-    }
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: scale(0.9);
-        }
-
-        to {
-            opacity: 1;
-            transform: scale(1);
-        }
     }
 
     /* Responsive */
@@ -732,7 +675,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="modern-form-group">
-                                <label for="price" class="modern-label">
+                                <label for="price_display" class="modern-label">
                                     Project Price
                                     <span class="label-hint">(IDR)</span>
                                 </label>
@@ -741,11 +684,16 @@
                                     <input
                                         type="text"
                                         class="modern-input @error('price') is-invalid @enderror"
-                                        id="price"
+                                        id="price_display"
+                                        value="{{ old('price') ? number_format(old('price'), 0, ',', '.') : ($project->price ? number_format($project->price, 0, ',', '.') : '') }}"
+                                        placeholder="0"
+                                        autocomplete="off">
+                                    <input
+                                        type="hidden"
                                         name="price"
+                                        id="price"
                                         value="{{ old('price', $project->price) }}"
-                                        data-original="{{ $project->price }}"
-                                        placeholder="0">
+                                        data-original="{{ $project->price }}">
                                 </div>
                                 @if($project->price)
                                 <div class="current-value-badge">
@@ -753,10 +701,6 @@
                                     Current: Rp {{ number_format($project->price, 0, ',', '.') }}
                                 </div>
                                 @endif
-                                <div class="currency-display" id="currencyDisplay">
-                                    <div class="currency-label">New Amount:</div>
-                                    <div class="currency-value" id="currencyValue">Rp 0</div>
-                                </div>
                                 <div class="form-help-text">
                                     <i class="bi bi-info-circle-fill"></i>
                                     <span>Enter numbers only, formatting will be applied automatically</span>
@@ -822,36 +766,29 @@
         const formElements = form.querySelectorAll('input, textarea, select');
 
         // Currency formatting for price input
+        const priceDisplay = document.getElementById('price_display');
         const priceInput = document.getElementById('price');
-        const currencyDisplay = document.getElementById('currencyDisplay');
-        const currencyValue = document.getElementById('currencyValue');
         const originalPrice = priceInput.getAttribute('data-original');
-        const hiddenPriceInput = document.createElement('input');
-        hiddenPriceInput.type = 'hidden';
-        hiddenPriceInput.name = 'price_numeric';
-        form.appendChild(hiddenPriceInput);
 
-        function formatRupiah(angka) {
-            if (!angka) return 'Rp 0';
-            const number = angka.toString().replace(/[^0-9]/g, '');
-            return 'Rp ' + number.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        function formatRupiah(number) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
         }
 
-        function formatInputRupiah(value) {
-            const number = value.replace(/[^0-9]/g, '');
-            return number.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        function unformatRupiah(formatted) {
+            return formatted.replace(/\./g, '');
         }
 
-        if (priceInput) {
-            // Format on input
-            priceInput.addEventListener('input', function(e) {
+        if (priceDisplay && priceInput) {
+            // Handle input on display field
+            priceDisplay.addEventListener('input', function(e) {
+                // Remove non-numeric characters
                 let value = e.target.value.replace(/[^0-9]/g, '');
 
                 if (value) {
-                    e.target.value = formatInputRupiah(value);
-                    currencyValue.textContent = formatRupiah(value);
-                    currencyDisplay.classList.add('active');
-                    hiddenPriceInput.value = value;
+                    // Format for display
+                    e.target.value = formatRupiah(value);
+                    // Set actual value in hidden input
+                    priceInput.value = value;
 
                     // Check if changed from original
                     if (value !== originalPrice) {
@@ -859,22 +796,20 @@
                     }
                 } else {
                     e.target.value = '';
-                    currencyDisplay.classList.remove('active');
-                    hiddenPriceInput.value = '';
+                    priceInput.value = '';
                 }
             });
 
-            // Format on page load
-            if (priceInput.value) {
-                const value = priceInput.value.replace(/[^0-9]/g, '');
-                priceInput.value = formatInputRupiah(value);
-                hiddenPriceInput.value = value;
-            }
+            // On paste
+            priceDisplay.addEventListener('paste', function(e) {
+                e.preventDefault();
+                const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+                const numericValue = pastedText.replace(/[^0-9]/g, '');
 
-            // Before submit
-            form.addEventListener('submit', function() {
-                const numericValue = priceInput.value.replace(/[^0-9]/g, '');
-                priceInput.value = numericValue;
+                if (numericValue) {
+                    priceDisplay.value = formatRupiah(numericValue);
+                    priceInput.value = numericValue;
+                }
             });
         }
 
