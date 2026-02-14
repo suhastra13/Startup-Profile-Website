@@ -770,7 +770,7 @@
                                 rows="3"
                                 maxlength="200"
                                 placeholder="A brief summary of this service..."
-                                required>{{ old('short_description') }}</textarea>
+                                required>{!!old('short_description') !!}</textarea>
                             @error('short_description')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -792,7 +792,7 @@
                                 <textarea class="form-control"
                                     id="full_description"
                                     name="full_description"
-                                    rows="10">{{ old('full_description') }}</textarea>
+                                    rows="10">{!! old('full_description') !!}</textarea>
                             </div>
                             <div class="form-text">
                                 <i class="bi bi-file-text"></i>
