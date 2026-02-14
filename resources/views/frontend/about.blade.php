@@ -264,10 +264,10 @@
                 <div class="group bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-4 border-2 border-gray-100 hover:border-coral flex flex-col w-full"
                     style="animation: fadeInUp 0.6s ease forwards; animation-delay: {{ $index * 0.1 }}s; opacity: 0;">
 
-                    <!-- Photo Container - FIXED HEIGHT 320px -->
+                    <!-- Photo Container - FIXED HEIGHT 320px with object-position top -->
                     <div class="relative w-full h-80 flex-shrink-0 overflow-hidden bg-gradient-to-br from-coral/10 to-coral/5">
                         @if($member->photo)
-                        <img class="w-full h-full object-cover object-center transform group-hover:scale-110 transition-transform duration-700"
+                        <img class="w-full h-full object-cover object-top transform group-hover:scale-110 transition-transform duration-700"
                             src="{{ asset('storage/' . $member->photo) }}"
                             alt="{{ $member->name }}"
                             loading="lazy">
