@@ -53,9 +53,9 @@ Route::post('/contact', [FrontendController::class, 'contactStore'])->name('cont
 // ====================================================
 // 2. USER DASHBOARD (Breeze Default)
 // ====================================================
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/admin/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('/admin/dashboard');
 
 
 // ====================================================
