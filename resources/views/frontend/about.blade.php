@@ -264,15 +264,15 @@
                 <div class="group bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-4 border-2 border-gray-100 hover:border-coral flex flex-col w-full"
                     style="animation: fadeInUp 0.6s ease forwards; animation-delay: {{ $index * 0.1 }}s; opacity: 0;">
 
-                    <!-- Photo Container - FIXED ASPECT RATIO 4:5 (portrait) -->
-                    <div class="relative w-full aspect-[4/5] flex-shrink-0 overflow-hidden bg-gradient-to-br from-coral/10 to-coral/5">
+                    <!-- Photo Container - FIXED HEIGHT 320px -->
+                    <div class="relative w-full h-80 flex-shrink-0 overflow-hidden bg-gradient-to-br from-coral/10 to-coral/5">
                         @if($member->photo)
-                        <img class="absolute inset-0 w-full h-full object-cover object-center transform group-hover:scale-110 transition-transform duration-700"
+                        <img class="w-full h-full object-cover object-center transform group-hover:scale-110 transition-transform duration-700"
                             src="{{ asset('storage/' . $member->photo) }}"
                             alt="{{ $member->name }}"
                             loading="lazy">
                         @else
-                        <div class="absolute inset-0 w-full h-full flex items-center justify-center text-gray-300">
+                        <div class="w-full h-full flex items-center justify-center text-gray-300">
                             <i class="bi bi-person-circle text-8xl"></i>
                         </div>
                         @endif
@@ -282,7 +282,7 @@
                     </div>
 
                     <!-- Content Section - CONSISTENT HEIGHT -->
-                    <div class="p-6 text-center flex flex-col flex-1 bg-white">
+                    <div class="p-6 text-center flex flex-col bg-white" style="min-height: 240px;">
                         <!-- Name -->
                         <h3 class="text-xl font-black text-gray-900 mb-2 group-hover:text-coral transition-colors duration-300 leading-tight">
                             {{ $member->name }}
@@ -293,15 +293,15 @@
                             {{ $member->position }}
                         </p>
 
-                        <!-- Bio - FIXED MIN HEIGHT with line clamp -->
-                        <div class="flex-1 mb-6" style="min-height: 4.5rem;">
-                            <p class="text-gray-700 text-sm leading-relaxed font-semibold line-clamp-3">
+                        <!-- Bio - FIXED HEIGHT with line clamp -->
+                        <div class="flex-1 mb-6">
+                            <p class="text-gray-700 text-sm leading-relaxed font-semibold line-clamp-4">
                                 {{ $member->bio }}
                             </p>
                         </div>
 
                         <!-- Social Links - Always at bottom -->
-                        <div class="flex justify-center space-x-3 mt-auto pt-4">
+                        <div class="flex justify-center space-x-3 mt-auto">
                             @if($member->linkedin)
                             <a href="{{ $member->linkedin }}"
                                 target="_blank"
@@ -355,6 +355,14 @@
     .line-clamp-3 {
         display: -webkit-box;
         -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .line-clamp-4 {
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;
