@@ -255,18 +255,20 @@
             </p>
         </div>
 
-        <!-- Team Grid -->
+        <!-- Team Grid - FIXED FOR SYMMETRY -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             @forelse($team as $index => $member)
-            <div class="group bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-4 border-2 border-gray-100 hover:border-coral"
+            <!-- Card with flex-col and h-full for equal heights -->
+            <div class="group bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-4 border-2 border-gray-100 hover:border-coral flex flex-col h-full"
                 style="animation: fadeInUp 0.6s ease forwards; animation-delay: {{ $index * 0.1 }}s; opacity: 0;">
 
-                <!-- Photo -->
-                <div class="relative h-72 overflow-hidden bg-gradient-to-br from-coral/10 to-coral/5">
+                <!-- Photo Container - Fixed Height -->
+                <div class="relative h-80 flex-shrink-0 overflow-hidden bg-gradient-to-br from-coral/10 to-coral/5">
                     @if($member->photo)
-                    <img class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                    <img class="w-full h-full object-cover object-center transform group-hover:scale-110 transition-transform duration-700"
                         src="{{ asset('storage/' . $member->photo) }}"
-                        alt="{{ $member->name }}">
+                        alt="{{ $member->name }}"
+                        loading="lazy">
                     @else
                     <div class="w-full h-full flex items-center justify-center text-gray-300">
                         <i class="bi bi-person-circle text-8xl"></i>
@@ -277,24 +279,32 @@
                     <div class="absolute inset-0 bg-gradient-to-t from-coral/90 via-coral/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 </div>
 
-                <!-- Content -->
-                <div class="p-6 text-center">
+                <!-- Content Section - Flexbox for equal distribution -->
+                <div class="p-6 text-center flex flex-col flex-1">
+                    <!-- Name -->
                     <h3 class="text-xl lg:text-2xl font-black text-gray-900 mb-2 group-hover:text-coral transition-colors duration-300">
                         {{ $member->name }}
                     </h3>
+
+                    <!-- Position -->
                     <p class="text-coral font-bold text-sm mb-4 uppercase tracking-wide">
                         {{ $member->position }}
                     </p>
-                    <p class="text-gray-600 text-sm mb-6 leading-relaxed font-medium">
-                        {{ $member->bio }}
-                    </p>
 
-                    <!-- Social Links -->
+                    <!-- Bio - Flex grow with line clamp for consistent height -->
+                    <div class="flex-1 mb-6">
+                        <p class="text-gray-600 text-sm leading-relaxed font-medium line-clamp-3">
+                            {{ $member->bio }}
+                        </p>
+                    </div>
+
+                    <!-- Social Links - Always at bottom with mt-auto -->
                     @if($member->linkedin || $member->github)
-                    <div class="flex justify-center space-x-3">
+                    <div class="flex justify-center space-x-3 mt-auto">
                         @if($member->linkedin)
                         <a href="{{ $member->linkedin }}"
                             target="_blank"
+                            rel="noopener noreferrer"
                             class="w-10 h-10 rounded-full bg-coral/10 hover:bg-coral text-coral hover:text-white flex items-center justify-center transition-all duration-300 hover:scale-110 border-2 border-coral/30 hover:border-coral">
                             <i class="bi bi-linkedin text-lg"></i>
                         </a>
@@ -302,11 +312,15 @@
                         @if($member->github)
                         <a href="{{ $member->github }}"
                             target="_blank"
+                            rel="noopener noreferrer"
                             class="w-10 h-10 rounded-full bg-coral/10 hover:bg-coral text-coral hover:text-white flex items-center justify-center transition-all duration-300 hover:scale-110 border-2 border-coral/30 hover:border-coral">
                             <i class="bi bi-github text-lg"></i>
                         </a>
                         @endif
                     </div>
+                    @else
+                    <!-- Placeholder spacer to maintain consistent height when no social links -->
+                    <div class="h-10 mt-auto"></div>
                     @endif
                 </div>
             </div>
@@ -335,6 +349,15 @@
     .dark .bg-grid-pattern {
         background-image: linear-gradient(#ffffff08 1px, transparent 1px),
             linear-gradient(90deg, #ffffff08 1px, transparent 1px);
+    }
+
+    /* Line Clamp Utility (for bio text) */
+    .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     /* Enhanced Animations */
