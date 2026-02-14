@@ -267,10 +267,11 @@
                     <!-- Photo Container - FIXED HEIGHT 320px with object-position top -->
                     <div class="relative w-full h-80 flex-shrink-0 overflow-hidden bg-gradient-to-br from-coral/10 to-coral/5">
                         @if($member->photo)
-                        <img class="w-full h-full object-cover object-top transform group-hover:scale-110 transition-transform duration-700"
+                        <img class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                             src="{{ asset('storage/' . $member->photo) }}"
                             alt="{{ $member->name }}"
-                            loading="lazy">
+                            loading="lazy"
+                            style="object-position: center 30%;">
                         @else
                         <div class="w-full h-full flex items-center justify-center text-gray-300">
                             <i class="bi bi-person-circle text-8xl"></i>
